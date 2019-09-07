@@ -20,6 +20,7 @@ func +(left: (Int, Int), right: (Int, Int)) -> (Int, Int) { (left.0+right.0, lef
 class Model: ObservableObject {
 	var cursor: Object { willSet {objectWillChange.send()} }
 	var offset: (row: Int, column: Int) { willSet {objectWillChange.send()} }
+	var gameOver = false { willSet { objectWillChange.send() } }
 	
 	@Published var blocks: [[Color]]
 	
@@ -31,12 +32,32 @@ class Model: ObservableObject {
 	}
 	
 	func advance() {
-		if cursorHitsGround {
+		if gameOver {
+			print("Game Over")
+		} else if cursorHitsGround {
+			var changedRows = Set<Int>()
 			for (row, column) in cursor.blockIndices(movedBy: offset) {
 				blocks[row][column] = cursor.color
+				changedRows.insert(row)
+			}
+			for row in changedRows {
+				var full = true
+				for block in blocks[row] {
+					if block == .clear { full = false; break }
+				}
+				if full {
+					blocks.remove(at: row)
+					blocks.insert([Color](repeating: .clear, count: width), at: 0)
+				}
 			}
 			cursor = Object.randomTetromino
 			offset = (0, width/2 - cursor.width/2)
+			for (row, column) in cursor.blockIndices(movedBy: offset) {
+				if blocks[row][column] != .clear {
+					gameOver = true
+					return
+				}
+			}
 		} else {
 			offset.row += 1
 		}
@@ -96,6 +117,8 @@ class Model: ObservableObject {
 
 struct ContentView: View {
 	@EnvironmentObject var model: Model
+	@State var timer: Timer? = nil
+	
     var body: some View {
 		VStack {
 			ZStack {
@@ -111,7 +134,16 @@ struct ContentView: View {
 				Button("<") { self.model.rotateCounterClockWise() }
 				Button(">") { self.model.rotateClockWise() }
 			}
-		}.padding()
+		}
+		.padding()
+		.onAppear {
+			self.timer?.invalidate()
+			self.timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true) { _ in self.model.advance() }
+		}
+		.onDisappear {
+			self.timer?.invalidate()
+			self.timer = nil
+		}
     }
 	
 	var canvas: some View {
