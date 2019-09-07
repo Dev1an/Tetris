@@ -51,6 +51,16 @@ extension Object {
 			color: .purple
 		)
 	]
+	
+	static var randomTetromino: Object { tetrominos.randomElement()! }
+	
+	func blockIndices(movedBy offset: (row: Int, column: Int)) -> some CoordinateSequence {
+		shape.lazy.enumerated().lazy.flatMap { (row, columns) in
+			columns.lazy.enumerated().lazy.compactMap {
+				$1 ? (row + offset.row, $0 + offset.column) : nil
+			}
+		}
+	}
 		
 	var rotatedClockWise: Object {
 		Object(
@@ -74,3 +84,6 @@ extension Object {
 		)
 	}
 }
+
+protocol CoordinateSequence: LazySequenceProtocol where Element == (Int, Int) {}
+extension LazySequence: CoordinateSequence where Base.Element == (Int, Int) {}
