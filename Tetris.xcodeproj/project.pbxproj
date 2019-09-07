@@ -12,6 +12,7 @@
 		747CFE57231EC796003B087F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 747CFE56231EC796003B087F /* Assets.xcassets */; };
 		747CFE5A231EC796003B087F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 747CFE59231EC796003B087F /* Preview Assets.xcassets */; };
 		747CFE5D231EC796003B087F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 747CFE5B231EC796003B087F /* Main.storyboard */; };
+		747CFE66231EF26D003B087F /* BaseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747CFE65231EF26D003B087F /* BaseObjects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		747CFE5C231EC796003B087F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		747CFE5E231EC796003B087F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		747CFE5F231EC796003B087F /* Tetris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tetris.entitlements; sourceTree = "<group>"; };
+		747CFE65231EF26D003B087F /* BaseObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseObjects.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 			children = (
 				747CFE52231EC795003B087F /* AppDelegate.swift */,
 				747CFE54231EC795003B087F /* ContentView.swift */,
+				747CFE65231EF26D003B087F /* BaseObjects.swift */,
 				747CFE56231EC796003B087F /* Assets.xcassets */,
 				747CFE5B231EC796003B087F /* Main.storyboard */,
 				747CFE5E231EC796003B087F /* Info.plist */,
@@ -145,6 +148,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				747CFE66231EF26D003B087F /* BaseObjects.swift in Sources */,
 				747CFE55231EC795003B087F /* ContentView.swift in Sources */,
 				747CFE53231EC795003B087F /* AppDelegate.swift in Sources */,
 			);
