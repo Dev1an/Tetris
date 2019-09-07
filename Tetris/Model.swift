@@ -19,6 +19,7 @@ class Model: ObservableObject {
 	var cursor: Object { willSet {objectWillChange.send()} }
 	var offset: (row: Int, column: Int) { willSet {objectWillChange.send()} }
 	var gameOver = false { willSet { objectWillChange.send() } }
+	var timer: Timer?
 	
 	@Published var blocks: [[Color]]
 	
@@ -38,21 +39,13 @@ class Model: ObservableObject {
 				blocks[row][column] = cursor.color
 				changedRows.insert(row)
 			}
-			for row in changedRows {
-				var full = true
-				for block in blocks[row] {
-					if block == .clear { full = false; break }
-				}
-				if full {
-					blocks.remove(at: row)
-					blocks.insert([Color](repeating: .clear, count: width), at: 0)
-				}
-			}
+			removeFullRows(in: changedRows)
 			cursor = Object.randomTetromino
 			offset = (0, width/2 - cursor.width/2)
 			for (row, column) in cursor.blockIndices(movedBy: offset) {
 				if blocks[row][column] != .clear {
 					gameOver = true
+					timer?.invalidate()
 					return
 				}
 			}
@@ -75,12 +68,30 @@ class Model: ObservableObject {
 	
 	func rotateClockWise() {
 		var rotated = cursor.rotatedClockWise
-		if !blocksOverlap(with: &rotated, movedBy: offset) { cursor = rotated }
+		changeCursorIfPossible(to: &rotated)
 	}
 	
 	func rotateCounterClockWise() {
 		var rotated = cursor.rotatedCounterClockWise
-		if !blocksOverlap(with: &rotated, movedBy: offset) { cursor = rotated }
+		changeCursorIfPossible(to: &rotated)
+	}
+	
+	func changeCursorIfPossible(to object: inout Object) {
+		let beforeRightBound = offset.column + object.width <= width
+		let afterLeftBound = offset.column >= 0
+		if beforeRightBound && afterLeftBound && !blocksOverlap(with: &object, movedBy: offset) {
+			cursor = object
+		}
+	}
+	
+	func removeFullRows(in rows: Set<Int>) {
+		let fullRows = rows.filter {blocks[$0].firstIndex(of: .clear) == nil}
+		blocks.remove(atOffsets: IndexSet(fullRows))
+		if !fullRows.isEmpty {
+			let emptyRow = [Color](repeating: .clear, count: width)
+			let emptyRows = [[Color]](repeating: emptyRow, count: fullRows.count)
+			blocks.insert(contentsOf: emptyRows, at: 0)
+		}
 	}
 	
 	var width: Int { blocks.first?.count ?? 0 }
@@ -106,6 +117,21 @@ class Model: ObservableObject {
 		} else {
 			return blocksOverlap(with: &cursor, movedBy: offset + (1,0))
 		}
+	}
+	
+	func play() {
+		timer?.invalidate()
+		timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true) { _ in
+			self.advance()
+		}
+	}
+	
+	func pause() {
+		timer?.invalidate()
+	}
+	
+	deinit {
+		timer?.invalidate()
 	}
 }
 
