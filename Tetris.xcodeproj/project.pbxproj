@@ -13,6 +13,7 @@
 		747CFE5A231EC796003B087F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 747CFE59231EC796003B087F /* Preview Assets.xcassets */; };
 		747CFE5D231EC796003B087F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 747CFE5B231EC796003B087F /* Main.storyboard */; };
 		747CFE66231EF26D003B087F /* BaseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747CFE65231EF26D003B087F /* BaseObjects.swift */; };
+		7490DD25232445420055BEB4 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7490DD24232445420055BEB4 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		747CFE5E231EC796003B087F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		747CFE5F231EC796003B087F /* Tetris.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Tetris.entitlements; sourceTree = "<group>"; };
 		747CFE65231EF26D003B087F /* BaseObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseObjects.swift; sourceTree = "<group>"; };
+		7490DD24232445420055BEB4 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			children = (
 				747CFE52231EC795003B087F /* AppDelegate.swift */,
 				747CFE54231EC795003B087F /* ContentView.swift */,
+				7490DD24232445420055BEB4 /* Model.swift */,
 				747CFE65231EF26D003B087F /* BaseObjects.swift */,
 				747CFE56231EC796003B087F /* Assets.xcassets */,
 				747CFE5B231EC796003B087F /* Main.storyboard */,
@@ -151,6 +154,7 @@
 				747CFE66231EF26D003B087F /* BaseObjects.swift in Sources */,
 				747CFE55231EC795003B087F /* ContentView.swift in Sources */,
 				747CFE53231EC795003B087F /* AppDelegate.swift in Sources */,
+				7490DD25232445420055BEB4 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
